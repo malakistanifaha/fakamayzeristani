@@ -15,7 +15,7 @@ import csv
 from termcolor import colored
 
 
-with open(r"C:\join\proxy.csv", 'r') as f:
+with open(r"/storage/emulated/0/giv/proxy.csv", 'r') as f: 
     reader = csv.reader(f)
     ROTATED_PROXY = next(reader)[0]
     
