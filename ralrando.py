@@ -13,7 +13,7 @@ from telethon.tl.types import InputUser, InputBotAppShortName
 from telethon.tl.functions.messages import RequestAppWebViewRequest
 import csv
 from termcolor import colored
-
+from twocaptcha import TwoCaptcha
 
 with open(r"/storage/emulated/0/giv/proxy.csv", 'r') as f: 
     reader = csv.reader(f)
@@ -45,6 +45,14 @@ with open(r"/storage/emulated/0/giv/randolimit.csv", 'r') as f:
     reader = csv.reader(f)
     limituzz = int(next(reader)[0])
 print(f"Kutiladigan vaqt - {limituzz}")
+
+
+with open(r"/storage/emulated/0/giv/captcha2.csv", 'r') as f: 
+    reader = csv.reader(f)
+    captchapai = next(reader)[0]
+
+
+captcha_api_key = captchapai
 
 channels = premium_channels + yopiq_channels
 
@@ -116,28 +124,10 @@ async def run(phone, start_params, channels):
                     'user-agent': fake_useragent.UserAgent().random,
                     'x-requested-with': 'XMLHttpRequest',
                 }
-                import subprocess
-                import asyncio
-                while True:
-                    subprocess.run(["uv", "run", "generatorrandom.py"], check=True)
-
-                    with open("tokens.txt", "r", encoding="utf-8") as file:
-                        lines = file.readlines()
-
-                    if lines: 
-                        challenge_token = lines[0].strip() 
-                        remaining_lines = lines[1:] 
-                        with open("tokens.txt", "w", encoding="utf-8") as file:
-                            file.writelines(remaining_lines)
-
-                        print(f"Captcha tokeni muvaffaqiyatli qabul qilindi")
-                        break  # Token muvaffaqiyatli olinsa, tsikldan chiqish
-                    else:
-                        print("Captcha tokenni olishda server bilan muammo yuzaga keldi, qayta urinish...")
-                        time.sleep(2)  # Bir oz kutib yana urinish
-                if not challenge_token:
-                    print(f"| Cloudflare pizdes qildi")
-                    return False
+                
+                solver = TwoCaptcha(captcha_api_key)
+                result = solver.turnstile(sitekey='0x4AAAAAAAgDD8CYN_YpvXoS', url=web_view.url)
+                challenge_token = result.get('code')
 
                 print(f" Cloudflareni pizdes qildik")
 
