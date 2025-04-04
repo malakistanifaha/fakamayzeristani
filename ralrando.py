@@ -126,7 +126,7 @@ async def run(phone, start_params, channels):
                 }
                 
                 solver = TwoCaptcha(captcha_api_key)
-                result = solver.turnstile(sitekey='0x4AAAAAAAgDD8CYN_YpvXoS', url=web_view.url)
+                result = solver.turnstile(sitekey='0x4AAAAAAA2AVdjVXiMwY1g', url=web_view.url)
                 challenge_token = result.get('code')
 
                 print(f" Cloudflareni pizdes qildik")
