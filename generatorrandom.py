@@ -170,8 +170,9 @@ async def get_turnstile_token(
 
 
 async def main():
+    import random
+    await asyncio.sleep(random.uniform(0, 3))
     start_time = time.perf_counter()
-
     parser = argparse.ArgumentParser(description="Turnstile Token Generator")
     parser.add_argument("--headless", default=False, help="Run in headless mode")
     parser.add_argument("--url", type=str, default="https://randomgodbot.com", help="URL to solve Turnstile")
